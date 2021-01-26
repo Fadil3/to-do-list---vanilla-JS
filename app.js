@@ -44,13 +44,16 @@ function addTodo(e) {
     //memasukkan elemen li kedalam li
     todoList.appendChild(li);
 
-    // console.log(li);
+    //mengosongkan input
+    todoInput.value = "";
 }
 
 function deleteTodo(e) {
     if (e.target.classList.contains("delete-todo")) {
-        const parent = e.target.parentElement;
+        if (confirm("apakah anda yakin ingin menghapus ?")) {
+            const parent = e.target.parentElement;
 
-        parent.remove();
+            parent.remove();
+        }
     }
 }
