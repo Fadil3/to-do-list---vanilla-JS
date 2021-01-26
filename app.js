@@ -16,36 +16,40 @@ todoList.addEventListener("click", deleteTodo);
 function addTodo(e) {
     e.preventDefault();
 
-    //create tag li
-    const li = document.createElement("li");
+    if (todoInput.value !== "") {
+        //create tag li
+        const li = document.createElement("li");
 
-    // menambahkan atribut class
-    li.className =
-        "list-group-item d-flex justify-content-between align-items-center mb-1";
+        // menambahkan atribut class
+        li.className =
+            "list-group-item d-flex justify-content-between align-items-center mb-1";
 
-    //create child di dalam li
-    li.appendChild(document.createTextNode(todoInput.value));
+        //create child di dalam li
+        li.appendChild(document.createTextNode(todoInput.value));
 
-    //membuat tag a
-    const a = document.createElement("a");
+        //membuat tag a
+        const a = document.createElement("a");
 
-    // menambahkan atribut
+        // menambahkan atribut
 
-    a.href = "#";
+        a.href = "#";
 
-    a.className = "badge badge-danger delete-todo";
+        a.className = "badge badge-danger delete-todo";
 
-    a.innerHTML = "Delete";
+        a.innerHTML = "Delete";
 
-    // memasukkan elemen a kedalam li
+        // memasukkan elemen a kedalam li
 
-    li.appendChild(a);
+        li.appendChild(a);
 
-    //memasukkan elemen li kedalam li
-    todoList.appendChild(li);
+        //memasukkan elemen li kedalam li
+        todoList.appendChild(li);
 
-    //mengosongkan input
-    todoInput.value = "";
+        //mengosongkan input
+        todoInput.value = "";
+    } else {
+        alert("Todo input tidak boleh kosong !!!");
+    }
 }
 
 function deleteTodo(e) {
