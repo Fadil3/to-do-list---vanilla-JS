@@ -9,13 +9,65 @@ const todoList = document.querySelector("#todo-list");
 
 const clearButton = document.querySelector("#clear-todos");
 
-todoForm.addEventListener("submit", addTodo);
+init();
 
-todoList.addEventListener("click", deleteTodo);
+function init() {
+    //read dari localstorage
+    document.addEventListener("DOMContentLoaded", getTodos);
 
-clearButton.addEventListener("click", clearTodos);
+    //event listener untuk add
+    todoForm.addEventListener("submit", addTodo);
 
-filterInput.addEventListener("keyup", filterTodos);
+    //event listener untuk delete 1 todo
+    todoList.addEventListener("click", deleteTodo);
+
+    //event listener untuk delete semua todo
+    clearButton.addEventListener("click", clearTodos);
+
+    //filter todo
+    filterInput.addEventListener("keyup", filterTodos);
+}
+
+//DOM function
+
+function getTodos() {
+    let todos;
+
+    if (localStorage.getItem("todos") == null) {
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+
+    todos.forEach((element) => {
+        const li = document.createElement("li");
+
+        // menambahkan atribut class
+        li.className =
+            "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item";
+
+        //create child di dalam li
+        li.appendChild(document.createTextNode(element));
+
+        //membuat tag a
+        const a = document.createElement("a");
+
+        // menambahkan atribut
+
+        a.href = "#";
+
+        a.className = "badge badge-danger delete-todo";
+
+        a.innerHTML = "Delete";
+
+        // memasukkan elemen a kedalam li
+
+        li.appendChild(a);
+
+        //memasukkan elemen li kedalam li
+        todoList.appendChild(li);
+    });
+}
 
 function addTodo(e) {
     e.preventDefault();
@@ -48,6 +100,8 @@ function addTodo(e) {
 
         //memasukkan elemen li kedalam li
         todoList.appendChild(li);
+
+        addTodoLocalStorage(todoInput.value);
 
         //mengosongkan input
         todoInput.value = "";
@@ -82,4 +136,18 @@ function filterTodos(e) {
             element.setAttribute("style", "display : none !important;");
         }
     });
+}
+
+function addTodoLocalStorage(todoValue) {
+    let todos;
+
+    if (localStorage.getItem("todos") == null) {
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+
+    todos.push(todoValue);
+
+    localStorage.setItem("todos", JSON.stringify(todos));
 }
