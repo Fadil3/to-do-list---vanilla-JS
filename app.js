@@ -15,6 +15,8 @@ todoList.addEventListener("click", deleteTodo);
 
 clearButton.addEventListener("click", clearTodos);
 
+filterInput.addEventListener("keyup", filterTodos);
+
 function addTodo(e) {
     e.preventDefault();
 
@@ -24,7 +26,7 @@ function addTodo(e) {
 
         // menambahkan atribut class
         li.className =
-            "list-group-item d-flex justify-content-between align-items-center mb-1";
+            "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item";
 
         //create child di dalam li
         li.appendChild(document.createTextNode(todoInput.value));
@@ -66,4 +68,18 @@ function deleteTodo(e) {
 
 function clearTodos() {
     todoList.innerHTML = "";
+}
+
+function filterTodos(e) {
+    const filterText = e.target.value.toLowerCase();
+
+    const todoItems = document.querySelectorAll(".todo-item");
+
+    todoItems.forEach((element) => {
+        const itemText = element.firstChild.textContent.toLowerCase();
+
+        if (itemText.indexOf(filterText) === -1) {
+            element.setAttribute("style", "display : none !important;");
+        }
+    });
 }
