@@ -31,78 +31,62 @@ function init() {
 //DOM function
 
 function getTodos() {
-    let todos;
+    const todos = getItemFromLocalStorage();
 
+    todos.forEach((element) => {
+        createTodoElement(element);
+    });
+}
+
+//reusable codes
+function createTodoElement(value) {
+    //create tag li
+    const li = document.createElement("li");
+
+    // menambahkan atribut class
+    li.className =
+        "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item";
+
+    //create child di dalam li
+    li.appendChild(document.createTextNode(value));
+
+    //membuat tag a
+    const a = document.createElement("a");
+
+    // menambahkan atribut
+
+    a.href = "#";
+
+    a.className = "badge badge-danger delete-todo";
+
+    a.innerHTML = "Delete";
+
+    // memasukkan elemen a kedalam li
+
+    li.appendChild(a);
+
+    //memasukkan elemen li kedalam li
+    todoList.appendChild(li);
+}
+
+function getItemFromLocalStorage() {
+    let todos;
     if (localStorage.getItem("todos") == null) {
         todos = [];
     } else {
         todos = JSON.parse(localStorage.getItem("todos"));
     }
 
-    todos.forEach((element) => {
-        const li = document.createElement("li");
-
-        // menambahkan atribut class
-        li.className =
-            "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item";
-
-        //create child di dalam li
-        li.appendChild(document.createTextNode(element));
-
-        //membuat tag a
-        const a = document.createElement("a");
-
-        // menambahkan atribut
-
-        a.href = "#";
-
-        a.className = "badge badge-danger delete-todo";
-
-        a.innerHTML = "Delete";
-
-        // memasukkan elemen a kedalam li
-
-        li.appendChild(a);
-
-        //memasukkan elemen li kedalam li
-        todoList.appendChild(li);
-    });
+    return todos;
 }
 
 function addTodo(e) {
     e.preventDefault();
 
     if (todoInput.value !== "") {
-        //create tag li
-        const li = document.createElement("li");
-
-        // menambahkan atribut class
-        li.className =
-            "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item";
-
-        //create child di dalam li
-        li.appendChild(document.createTextNode(todoInput.value));
-
-        //membuat tag a
-        const a = document.createElement("a");
-
-        // menambahkan atribut
-
-        a.href = "#";
-
-        a.className = "badge badge-danger delete-todo";
-
-        a.innerHTML = "Delete";
-
-        // memasukkan elemen a kedalam li
-
-        li.appendChild(a);
-
-        //memasukkan elemen li kedalam li
-        todoList.appendChild(li);
-
         addTodoLocalStorage(todoInput.value);
 
+        createTodoElement(todoInput.value);
         //mengosongkan input
         todoInput.value = "";
     } else {
@@ -139,13 +123,7 @@ function filterTodos(e) {
 }
 
 function addTodoLocalStorage(todoValue) {
-    let todos;
-
-    if (localStorage.getItem("todos") == null) {
-        todos = [];
-    } else {
-        todos = JSON.parse(localStorage.getItem("todos"));
-    }
+    const todos = getItemFromLocalStorage();
 
     todos.push(todoValue);
 
